@@ -1,4 +1,6 @@
-﻿namespace DiceLib
+﻿using System;
+
+namespace DiceLib
 {
     /// <summary>
     ///     An interface for the simplest Die possible.
@@ -80,15 +82,27 @@
         ///     Mutate the current instance on success, throw an exception on error
         /// </summary>
         /// <param name="s">the string representation of an instance of this class</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="s" /> is null
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     <paramref name="s" /> is not a valid representation of a Die
+        /// </exception>
         /// <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         void FromString(string s);
 
         /// <summary>
         ///     The instance method equivalent to TryParse.
-        ///     Mutate the current instance on success, return false or throw an exception on error
+        ///     Mutate the current instance on success
         /// </summary>
         /// <param name="s">the string representation of an instance of this class</param>
         /// <returns>true on success</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="s" /> is null
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     <paramref name="s" /> is not a valid representation of a Die
+        /// </exception>
         /// <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
         bool TryFromString(string s);
     }

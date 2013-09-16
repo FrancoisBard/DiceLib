@@ -74,7 +74,6 @@ namespace DiceLib
         /// <exception cref="FormatException">
         ///     <paramref name="stringRepresentation" /> is not a valid DieList&lt;T&gt; representation
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
         public static DieList<T> Parse(string stringRepresentation)
         {
             DieList<T> result;
@@ -96,7 +95,6 @@ namespace DiceLib
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="stringRepresentation" /> is null
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
         public static bool TryParse(string stringRepresentation, out DieList<T> result)
         {
             if (stringRepresentation == null)

@@ -150,15 +150,23 @@
                 Mutate the current instance on success, throw an exception on error
             </summary>
             <param name="s">the string representation of an instance of this class</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="s"/> is null
+            </exception>
+            <exception cref="T:System.FormatException"><paramref name="s"/> is not a valid representation of a Die</exception>
             <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.IParseable.TryFromString(System.String)">
             <summary>
                 The instance method equivalent to TryParse.
-                Mutate the current instance on success, return false or throw an exception on error
+                Mutate the current instance on success
             </summary>
             <param name="s">the string representation of an instance of this class</param>
             <returns>true on success</returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="s"/> is null
+            </exception>
+            <exception cref="T:System.FormatException"><paramref name="s"/> is not a valid representation of a Die</exception>
             <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.Die.#cctor">
@@ -257,6 +265,10 @@
                 Mutate the current instance on success, throw an exception on error
             </summary>
             <param name="stringRepresentation">the string representation of an instance of this class</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
+            <exception cref="T:System.FormatException"><paramref name="stringRepresentation"/> is not a valid representation of a Die</exception>
             <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.Die.TryFromString(System.String)">
@@ -266,6 +278,9 @@
             </summary>
             <param name="stringRepresentation">the string representation of an instance of this class</param>
             <returns>true on success</returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
             <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.Die.ToString">
@@ -280,9 +295,9 @@
             </summary>
             <param name="stringRepresentation">The string representation of the die (ex: "d10 + 1")</param>
             <param name="result">The Die returned if the string representation was valid</param>
-            <remarks>
-                this method raises an exception if and only if stringRepresentation is null
-            </remarks>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
         </member>
         <member name="M:DiceLib.Die.Parse(System.String)">
             <summary>
@@ -290,6 +305,10 @@
             </summary>
             <param name="stringRepresentation">a string representation of a die (ex: "d10 + 1")</param>
             <returns>a die</returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
+            <exception cref="T:System.FormatException"><paramref name="stringRepresentation"/> is not a valid representation of a Die</exception>
         </member>
         <member name="P:DiceLib.Die.Faces">
             <summary>
@@ -453,7 +472,6 @@
             <exception cref="T:System.FormatException">
                 <paramref name="stringRepresentation"/> is not a valid DieList&lt;T&gt; representation
             </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
         </member>
         <member name="M:DiceLib.DieList`1.TryParse(System.String,DiceLib.DieList{`0}@)">
             <summary>
@@ -467,7 +485,6 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="stringRepresentation"/> is null
             </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
         </member>
         <member name="M:DiceLib.DieList`1.Equals(System.Object)">
             <summary>

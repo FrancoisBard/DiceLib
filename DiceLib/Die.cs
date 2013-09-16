@@ -35,10 +35,7 @@ namespace DiceLib
             get { return _faces; }
             set
             {
-                if (value < 1)
-                    throw new ArgumentOutOfRangeException("value",
-                                                          String.Format("Faces must be strictly positive, was {0}",
-                                                                        value));
+                CheckFaces(value);
                 _faces = value;
             }
         }
@@ -57,12 +54,34 @@ namespace DiceLib
             get { return _number; }
             set
             {
-                if (value < 1)
-                    throw new ArgumentOutOfRangeException("value",
-                                                          String.Format("Number must be strictly positive, was {0}",
-                                                                        value));
+                CheckNumber(value);
                 _number = value;
             }
+        }
+
+        private static bool CheckNumber(int number, bool throwException = true)
+        {
+            return CheckStrictlyPositive(number, "Number", throwException);
+        }
+
+        private static bool CheckFaces(int faces, bool throwException = true)
+        {
+            return CheckStrictlyPositive(faces, "Faces", throwException);
+        }
+
+        private static bool CheckStrictlyPositive(int value, string property, bool throwException)
+        {
+            if (value < 1)
+            {
+                if (throwException)
+                {
+                    throw new ArgumentOutOfRangeException(
+                        property,
+                        String.Format("{0} must be strictly positive, was {1}", property, value));
+                }
+                return false;
+            }
+            return true;
         }
 
         #endregion
@@ -281,6 +300,12 @@ namespace DiceLib
         ///     Mutate the current instance on success, throw an exception on error
         /// </summary>
         /// <param name="stringRepresentation">the string representation of an instance of this class</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="stringRepresentation" /> is null
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     <paramref name="stringRepresentation" /> is not a valid representation of a Die
+        /// </exception>
         /// <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         public void FromString(string stringRepresentation)
         {
@@ -293,6 +318,9 @@ namespace DiceLib
         /// </summary>
         /// <param name="stringRepresentation">the string representation of an instance of this class</param>
         /// <returns>true on success</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="stringRepresentation" /> is null
+        /// </exception>
         /// <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
         public bool TryFromString(string stringRepresentation)
         {
@@ -325,14 +353,15 @@ namespace DiceLib
             Modifier = die.Modifier;
         }
 
+
         /// <summary>
         ///     Try to create a die from a string representation
         /// </summary>
         /// <param name="stringRepresentation">The string representation of the die (ex: "d10 + 1")</param>
         /// <param name="result">The Die returned if the string representation was valid</param>
-        /// <remarks>
-        ///     this method raises an exception if and only if stringRepresentation is null
-        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="stringRepresentation" /> is null
+        /// </exception>
         public static bool TryParse(string stringRepresentation, out Die result)
         {
             if (stringRepresentation == null)
@@ -355,11 +384,11 @@ namespace DiceLib
             //number
             if (m.Groups[1].Value != "")
             {
-                if (!Int32.TryParse(m.Groups[1].Value, out number) || number < 1) return false;
+                if (!Int32.TryParse(m.Groups[1].Value, out number) || !CheckNumber(number, false)) return false;
             }
 
             //faces
-            if (!Int32.TryParse(m.Groups[2].Value, out faces) || faces < 1) return false;
+            if (!Int32.TryParse(m.Groups[2].Value, out faces) || !CheckFaces(faces, false)) return false;
 
             //modifier
             if (m.Groups[3].Value != "")
@@ -372,6 +401,7 @@ namespace DiceLib
                 }
             }
 
+            //we're good
             result = new Die(number, faces, modifier);
             return true;
         }
@@ -381,6 +411,12 @@ namespace DiceLib
         /// </summary>
         /// <param name="stringRepresentation">a string representation of a die (ex: "d10 + 1")</param>
         /// <returns>a die</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="stringRepresentation" /> is null
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     <paramref name="stringRepresentation" /> is not a valid representation of a Die
+        /// </exception>
         public static Die Parse(string stringRepresentation)
         {
             Die result;
