@@ -4,11 +4,11 @@ DiceLib
 A simple library for managing D&amp;D-like RPG dice system
 
 it's a small portable class compatible with :
-.NET for Windows Store apps
-.Net framework >=4
-Silverlight >=4
-Windows Phone >=7
-Xbox 360
+* .NET for Windows Store apps
+* .NET framework >=4
+* Silverlight >=4
+* Windows Phone >=7
+* Xbox 360
 
 I'm using NUnit for unit testing
 
