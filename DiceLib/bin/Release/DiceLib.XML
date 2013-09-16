@@ -1,0 +1,502 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DiceLib</name>
+    </assembly>
+    <members>
+        <member name="T:DiceLib.AttackDamage">
+            <summary>
+                A Class for handling a complete Attack+Damage roll
+            </summary>
+        </member>
+        <member name="F:DiceLib.AttackDamage.Attack">
+            <summary>
+                The Attack Die
+            </summary>
+        </member>
+        <member name="F:DiceLib.AttackDamage.Damage">
+            <summary>
+                The Damage Die
+            </summary>
+        </member>
+        <member name="M:DiceLib.AttackDamage.#ctor(DiceLib.AttackDie,DiceLib.Die)">
+            <summary>
+                A new couple of Attack + Damage Dice
+            </summary>
+            <param name="attack"></param>
+            <param name="damage"></param>
+        </member>
+        <member name="M:DiceLib.AttackDamage.RollAgainst(System.Int32)">
+            <summary>
+                Roll against a given armor class
+            </summary>
+            <param name="armorClass"></param>
+            <returns>The amount of damage inflicted. Returns 0 if it didn't hit or hit and inflicted 0 damages.</returns>
+        </member>
+        <member name="T:DiceLib.AttackDie">
+            <summary>
+                A Dungeons &amp; Dragons 3 d20
+            </summary>
+            <remarks>
+                even if the rulebooks tend to associate the damage die and the critical information,
+                it is more natural to see the critical information as part of the attack die.
+            </remarks>
+        </member>
+        <member name="T:DiceLib.Die">
+            <summary>
+                Implements a classic die.
+                A classic die is a n-faced die, with faces ranging from 1 to n.
+                Each face has the same probability.
+                A classic die is written 'd{n}', where {n} is the number of faces.
+                For instance, a 20-faced die is written 'd20'.
+                A die can have modifiers.
+                A modifier is a number that you add or subtract to the result of a roll.
+                In Dungeons &amp; Dragons 3, the result of a roll after applying all modifiers cannot be inferior to 1
+                For instance, if you roll 2 on a d3 - 2, you obtain 1 (not 0).
+            </summary>
+        </member>
+        <member name="T:DiceLib.IDungeonDie`1">
+            <summary>
+                an interface for a Die with modifiers
+            </summary>
+            <typeparam name="T">
+                T can be anything but should probably be numeric <see cref="T:DiceLib.IRollableStatistics`1"/>
+            </typeparam>
+        </member>
+        <member name="T:DiceLib.IDie`1">
+            <summary>
+                an interface for a Die
+            </summary>
+            <typeparam name="T">
+                T can be anything but should probably be numeric <see cref="T:DiceLib.IRollableStatistics`1"/>"/&gt;
+                Declared covariant because I could.
+            </typeparam>
+        </member>
+        <member name="T:DiceLib.IRollable`1">
+            <summary>
+                An interface for the simplest Die possible.
+            </summary>
+            <typeparam name="T">
+                T can be anything.
+                Declared covariant because I could.
+            </typeparam>
+        </member>
+        <member name="M:DiceLib.IRollable`1.Roll">
+            <summary>
+                Roll the die
+            </summary>
+            <returns>the resulting value of the roll</returns>
+        </member>
+        <member name="T:DiceLib.IRollableStatistics`1">
+            <summary>
+                An interface with some statistic features for numeric Dice
+            </summary>
+            <typeparam name="T">
+                T should be a numeric type such as int, long or decimal.
+                It should even be int or decimal.
+                Since there is no way to define such a generic constraint, i left T unconstrained.
+                Declared covariant because I could.
+            </typeparam>
+        </member>
+        <member name="P:DiceLib.IRollableStatistics`1.Min">
+            <summary>
+                The smallest possible value
+            </summary>
+        </member>
+        <member name="P:DiceLib.IRollableStatistics`1.Max">
+            <summary>
+                The greatest possible value
+            </summary>
+        </member>
+        <member name="P:DiceLib.IRollableStatistics`1.Average">
+            <summary>
+                The average value
+            </summary>
+            <remarks>
+                It cannot return T or we would loose in precision if T was int.
+                There is still a loss of precision, and/or even of magnitude if T is double or BigInteger for instance
+            </remarks>
+        </member>
+        <member name="T:DiceLib.IRollableModified`1">
+            <summary>
+                An interface for supporting roll modifiers.
+            </summary>
+            <typeparam name="T">
+                T can be anything
+            </typeparam>
+        </member>
+        <member name="M:DiceLib.IRollableModified`1.GetRoll">
+            <summary>
+                Roll the die
+            </summary>
+            <returns>the roll information</returns>
+        </member>
+        <member name="M:DiceLib.IRollableModified`1.Roll(`0)">
+            <summary>
+                return the value (after modification) from the <paramref name="naturalRoll" />
+            </summary>
+            <param name="naturalRoll">the natural roll, ie the raw value before any bonuses</param>
+            <returns>the roll information, containing both he natural and modified roll</returns>
+        </member>
+        <member name="T:DiceLib.IParseable">
+            <summary>
+                An interface to expose the static Parse and TryParse methods as instance methods.
+            </summary>
+            <remarks>Prefer the static Parse/TryParse when you know which class you need.</remarks>
+        </member>
+        <member name="M:DiceLib.IParseable.FromString(System.String)">
+            <summary>
+                The instance method equivalent to Parse.
+                Mutate the current instance on success, throw an exception on error
+            </summary>
+            <param name="s">the string representation of an instance of this class</param>
+            <remarks>Prefer the static Parse method when you know which class you need.</remarks>
+        </member>
+        <member name="M:DiceLib.IParseable.TryFromString(System.String)">
+            <summary>
+                The instance method equivalent to TryParse.
+                Mutate the current instance on success, return false or throw an exception on error
+            </summary>
+            <param name="s">the string representation of an instance of this class</param>
+            <returns>true on success</returns>
+            <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
+        </member>
+        <member name="M:DiceLib.Die.#cctor">
+            <summary>
+                static constructor to initialize the RegEx
+            </summary>
+        </member>
+        <member name="M:DiceLib.Die.#ctor">
+            <summary>
+                Create a die
+            </summary>
+        </member>
+        <member name="M:DiceLib.Die.#ctor(System.Int32)">
+            <summary>
+                Create a die
+            </summary>
+            <param name="faces">The number of faces, or equivalently the highest face</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="faces"/> must be strictly positive
+            </exception>
+        </member>
+        <member name="M:DiceLib.Die.#ctor(System.Int32,System.Int32)">
+            <summary>
+                Create a die
+            </summary>
+            <param name="faces">The number of faces, or equivalently the highest face</param>
+            <param name="modifier">The final modifier applied on the result of the die roll</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="faces"/> must be strictly positive
+            </exception>
+        </member>
+        <member name="M:DiceLib.Die.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Create a die
+            </summary>
+            <param name="faces">The number of faces, or equivalently the highest face</param>
+            <param name="number">The number of dice</param>
+            <param name="modifier">The final modifier applied on the result of the die roll</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="number"/> must be strictly positive
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="faces"/> must be strictly positive
+            </exception>
+        </member>
+        <member name="M:DiceLib.Die.GetRoll">
+            <summary>
+                Roll the die
+            </summary>
+            <returns>the roll information</returns>
+        </member>
+        <member name="M:DiceLib.Die.Roll(System.Int32)">
+            <summary>
+                return the value (after modification) from the <paramref name="naturalRoll" />
+            </summary>
+            <param name="naturalRoll">the natural roll, ie the raw value before any bonuses</param>
+            <returns>the roll information, containing both he natural and modified roll</returns>
+        </member>
+        <member name="M:DiceLib.Die.Roll">
+            <summary>
+                Roll the die
+            </summary>
+            <returns>the result after applying the modifier (if any)</returns>
+        </member>
+        <member name="M:DiceLib.Die.Equals(System.Object)">
+            <summary>
+                Two (not null) dice are equal if they have the exact same type (namely Dice, or a derived type), and the values Faces, Number and Modifier are equal.
+            </summary>
+            <returns>True if the dice are equal</returns>
+        </member>
+        <member name="M:DiceLib.Die.op_Equality(DiceLib.Die,DiceLib.Die)">
+            <summary>
+                == operator override
+            </summary>
+            <param name="x">one Die</param>
+            <param name="y">another Die</param>
+            <returns>True if both Dies are equals or both are null</returns>
+        </member>
+        <member name="M:DiceLib.Die.op_Inequality(DiceLib.Die,DiceLib.Die)">
+            <summary>
+                != operator override
+            </summary>
+            <param name="x">one Die</param>
+            <param name="y">another Die</param>
+            <returns>True if !(x == y)</returns>
+        </member>
+        <member name="M:DiceLib.Die.GetHashCode">
+            <summary>
+                calculate a hash based on the values of Faces, Number and Modifier
+            </summary>
+            <returns>The hash code</returns>
+        </member>
+        <member name="M:DiceLib.Die.FromString(System.String)">
+            <summary>
+                The instance method equivalent to Parse.
+                Mutate the current instance on success, throw an exception on error
+            </summary>
+            <param name="stringRepresentation">the string representation of an instance of this class</param>
+            <remarks>Prefer the static Parse method when you know which class you need.</remarks>
+        </member>
+        <member name="M:DiceLib.Die.TryFromString(System.String)">
+            <summary>
+                The instance method equivalent to TryParse.
+                Mutate the current instance on success, return false or throw an exception on error
+            </summary>
+            <param name="stringRepresentation">the string representation of an instance of this class</param>
+            <returns>true on success</returns>
+            <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
+        </member>
+        <member name="M:DiceLib.Die.ToString">
+            <summary>
+                ToString allows us to print the object
+            </summary>
+            <returns>The canonical string representation of the die</returns>
+        </member>
+        <member name="M:DiceLib.Die.TryParse(System.String,DiceLib.Die@)">
+            <summary>
+                Try to create a die from a string representation
+            </summary>
+            <param name="stringRepresentation">The string representation of the die (ex: "d10 + 1")</param>
+            <param name="result">The Die returned if the string representation was valid</param>
+            <remarks>
+                this method raises an exception if and only if stringRepresentation is null
+            </remarks>
+        </member>
+        <member name="M:DiceLib.Die.Parse(System.String)">
+            <summary>
+                Create a die from a string representation or throw exception
+            </summary>
+            <param name="stringRepresentation">a string representation of a die (ex: "d10 + 1")</param>
+            <returns>a die</returns>
+        </member>
+        <member name="P:DiceLib.Die.Faces">
+            <summary>
+                The number of faces, or equivalently the highest face
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Faces must be strictly positive</exception>
+        </member>
+        <member name="P:DiceLib.Die.Modifier">
+            <summary>
+                The final modifier applied on the result of the die roll
+            </summary>
+        </member>
+        <member name="P:DiceLib.Die.Number">
+            <summary>
+                The number of dice
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Number must be strictly positive</exception>
+        </member>
+        <member name="P:DiceLib.Die.Min">
+            <summary>
+                The smallest possible value of a <c>Roll</c>
+            </summary>
+        </member>
+        <member name="P:DiceLib.Die.Max">
+            <summary>
+                The biggest possible value of a <c>Roll</c>
+            </summary>
+        </member>
+        <member name="P:DiceLib.Die.Average">
+            <summary>
+                The average value of a <c>Roll</c>
+            </summary>
+        </member>
+        <member name="F:DiceLib.AttackDie.Critical">
+            <summary>
+                The critical strike information
+            </summary>
+        </member>
+        <member name="M:DiceLib.AttackDie.#ctor(System.Int32,DiceLib.Critical)">
+            <summary>
+                instantiate a new attack die
+            </summary>
+            <param name="modifier">the modifier to apply to the d20</param>
+            <param name="critical">the critical strike information</param>
+        </member>
+        <member name="M:DiceLib.AttackDie.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                instantiate a new attack die
+            </summary>
+            <param name="modifier">the modifier to apply to the d20</param>
+            <param name="threat">A normal hit is a critical strike above this value (included)</param>
+            <param name="multiplier">The multiplier to apply to the damage roll</param>
+        </member>
+        <member name="T:DiceLib.SkillDie">
+            <summary>
+                A Dungeons &amp; Dragons 3 Skill d20, with Take10() and Take20() methods
+            </summary>
+        </member>
+        <member name="M:DiceLib.SkillDie.#ctor(System.Int32)">
+            <summary>
+                Instantiate a new skill die
+            </summary>
+            <param name="modifier">the bonus modifier</param>
+        </member>
+        <member name="M:DiceLib.SkillDie.Take10">
+            <summary>
+                Roll a natural 10 and apply the modifier
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiceLib.SkillDie.Take20">
+            <summary>
+                Roll a natural 20 and apply the modifier
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DiceLib.Roll`1">
+            <summary>
+                A class representing a roll (a raw and a modified value)
+            </summary>
+            <typeparam name="T">
+                T can be anything
+            </typeparam>
+        </member>
+        <member name="F:DiceLib.Roll`1.NaturalValue">
+            <summary>
+                The natural, unmodified value
+            </summary>
+        </member>
+        <member name="F:DiceLib.Roll`1.Value">
+            <summary>
+                The modified value, after applying bonuses
+            </summary>
+        </member>
+        <member name="M:DiceLib.Roll`1.#ctor(`0,`0)">
+            <summary>
+                Instantiate a new Roll from a <paramref name="naturalValue" /> and a <paramref name="value" />
+            </summary>
+            <param name="naturalValue">The natural, unmodified value</param>
+            <param name="value">The modified value, after applying bonuses</param>
+        </member>
+        <member name="T:DiceLib.Critical">
+            <summary>
+                A class to represent a critical hit information
+            </summary>
+            <remarks>see http://www.dandwiki.com/wiki/Critical_hits#Critical_Hits </remarks>
+        </member>
+        <member name="F:DiceLib.Critical.Multiplier">
+            <summary>
+                The multiplier to apply to the damage roll
+            </summary>
+        </member>
+        <member name="F:DiceLib.Critical.Threat">
+            <summary>
+                A normal hit is a critical strike above this value (included)
+            </summary>
+        </member>
+        <member name="M:DiceLib.Critical.#ctor(System.Int32,System.Int32)">
+            <summary>
+                Instantiate a new critical hit information
+            </summary>
+            <param name="threat">A normal hit is a critical strike above this value (included)</param>
+            <param name="multiplier">The multiplier to apply to the damage roll</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                Threat must be between 2 and 20 included
+                Multiplier must be strictly positive
+            </exception>
+        </member>
+        <member name="T:DiceLib.DieList`1">
+            <summary>
+                A list of dice
+            </summary>
+            <typeparam name="T">A "Die" that implements IDie&lt;int&gt;, IParseable and as a parameterless constructor</typeparam>
+            <remarks>
+                To compare two DieList&gt;T&lt;, StructuralComparisons.StructuralEqualityComparer.Equals()
+                To compare two DieList&gt;T&lt; ELEMENY BY ELEMENT, use Linq's SequenceEqual()
+            </remarks>
+            //todo stop inheriting from list and use composition instead
+        </member>
+        <member name="M:DiceLib.DieList`1.Roll">
+            <summary>
+                Roll the die
+            </summary>
+            <returns>the resulting value of the roll</returns>
+        </member>
+        <member name="M:DiceLib.DieList`1.ToString">
+            <summary>
+                Return a string that represents the current DieList&lt;T&gt;
+            </summary>
+            <returns>the canonical string representation of the DieList&lt;T&gt;</returns>
+        </member>
+        <member name="M:DiceLib.DieList`1.Parse(System.String)">
+            <summary>
+                Parse a string representing a DieList&lt;T&gt;
+            </summary>
+            <param name="stringRepresentation">A string representation of the DieList&lt;T&gt;</param>
+            <returns>The parsed DieList&lt;T&gt;</returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
+            <exception cref="T:System.FormatException">
+                <paramref name="stringRepresentation"/> is not a valid DieList&lt;T&gt; representation
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
+        </member>
+        <member name="M:DiceLib.DieList`1.TryParse(System.String,DiceLib.DieList{`0}@)">
+            <summary>
+                Try to parse a string representing a DieList&lt;T&gt;
+            </summary>
+            <param name="stringRepresentation">A string representation of the DieList&lt;T&gt;</param>
+            <param name="result">The parsed DieList&lt;T&gt; on success, null on failure</param>
+            <returns>
+                true if <paramref name="stringRepresentation"/> was a valid representation of a DieList&lt;T&gt;
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="stringRepresentation"/> is null
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Faces and Number must be strictly positive for each IDie</exception>
+        </member>
+        <member name="M:DiceLib.DieList`1.Equals(System.Object)">
+            <summary>
+                override equality
+            </summary>
+            <param name="obj"></param>
+            <returns>True if the DieList&lt;T&gt; is equal to the current object</returns>
+            <remarks>be careful when extending DieList&lt;T&gt; to provide a coherent equality implementation</remarks>
+        </member>
+        <member name="M:DiceLib.DieList`1.GetHashCode">
+            <summary>
+                override GetHashCode
+            </summary>
+            <returns>A hash code</returns>
+        </member>
+        <member name="P:DiceLib.DieList`1.Min">
+            <summary>
+                The smallest possible value
+            </summary>
+        </member>
+        <member name="P:DiceLib.DieList`1.Max">
+            <summary>
+                The greatest possible value
+            </summary>
+        </member>
+        <member name="P:DiceLib.DieList`1.Average">
+            <summary>
+                The average value
+            </summary>
+        </member>
+    </members>
+</doc>
