@@ -153,7 +153,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="s"/> is null
             </exception>
-            <exception cref="T:System.FormatException"><paramref name="s"/> is not a valid representation of a Die</exception>
+            <exception cref="T:System.FormatException">
+                <paramref name="s"/> is not a valid representation of a Die
+            </exception>
             <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.IParseable.TryFromString(System.String)">
@@ -166,7 +168,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="s"/> is null
             </exception>
-            <exception cref="T:System.FormatException"><paramref name="s"/> is not a valid representation of a Die</exception>
+            <exception cref="T:System.FormatException">
+                <paramref name="s"/> is not a valid representation of a Die
+            </exception>
             <remarks>Prefer the static TryParse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.Die.#cctor">
@@ -268,7 +272,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="stringRepresentation"/> is null
             </exception>
-            <exception cref="T:System.FormatException"><paramref name="stringRepresentation"/> is not a valid representation of a Die</exception>
+            <exception cref="T:System.FormatException">
+                <paramref name="stringRepresentation"/> is not a valid representation of a Die
+            </exception>
             <remarks>Prefer the static Parse method when you know which class you need.</remarks>
         </member>
         <member name="M:DiceLib.Die.TryFromString(System.String)">
@@ -308,7 +314,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="stringRepresentation"/> is null
             </exception>
-            <exception cref="T:System.FormatException"><paramref name="stringRepresentation"/> is not a valid representation of a Die</exception>
+            <exception cref="T:System.FormatException">
+                <paramref name="stringRepresentation"/> is not a valid representation of a Die
+            </exception>
         </member>
         <member name="P:DiceLib.Die.Faces">
             <summary>
