@@ -13,14 +13,14 @@
         /// <summary>
         ///     The Damage Die
         /// </summary>
-        public readonly Die Damage;
+        public readonly DungeonDie Damage;
 
         /// <summary>
         ///     A new couple of Attack + Damage Dice
         /// </summary>
         /// <param name="attack"></param>
         /// <param name="damage"></param>
-        public AttackDamage(AttackDie attack, Die damage)
+        public AttackDamage(AttackDie attack, DungeonDie damage)
         {
             Attack = attack;
             Damage = damage;

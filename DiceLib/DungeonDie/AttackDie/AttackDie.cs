@@ -7,7 +7,7 @@
     ///     even if the rulebooks tend to associate the damage die and the critical information,
     ///     it is more natural to see the critical information as part of the attack die.
     /// </remarks>
-    public class AttackDie : Die
+    public class AttackDie : DungeonDie
     {
         /// <summary>
         ///     The critical strike information

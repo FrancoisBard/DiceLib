@@ -42,14 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttackDamage.cs" />
-    <Compile Include="AttackDie.cs" />
-    <Compile Include="SkillDie.cs" />
-    <Compile Include="Roll.cs" />
-    <Compile Include="Critical.cs" />
-    <Compile Include="DieList.cs" />
     <Compile Include="Die.cs" />
-    <Compile Include="Interfaces.cs" />
+    <Compile Include="Interfaces\IDungeonDie.cs" />
+    <Compile Include="Interfaces\IDie.cs" />
+    <Compile Include="Interfaces\IParseable.cs" />
+    <Compile Include="Interfaces\IRollableStatistics.cs" />
+    <Compile Include="Interfaces\IRollable.cs" />
+    <Compile Include="DieList\ParseableDieList.cs" />
+    <Compile Include="DungeonDie\AttackDie\AttackDamage.cs" />
+    <Compile Include="DungeonDie\AttackDie\AttackDie.cs" />
+    <Compile Include="DungeonDie\SkillDie.cs" />
+    <Compile Include="Roll.cs" />
+    <Compile Include="DungeonDie\AttackDie\Critical.cs" />
+    <Compile Include="DieList\DieList.cs" />
+    <Compile Include="DungeonDie\DungeonDie.cs" />
+    <Compile Include="Interfaces\IRollableModified.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

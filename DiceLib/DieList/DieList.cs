@@ -7,13 +7,12 @@ namespace DiceLib
     /// <summary>
     ///     A list of dice
     /// </summary>
-    /// <typeparam name="T">A "Die" that implements IDie&lt;int&gt;, IParseable and as a parameterless constructor</typeparam>
+    /// <typeparam name="T">A "Die" that implements IDie&lt;int&gt;</typeparam>
     /// <remarks>
     ///     To compare two DieList&gt;T&lt;, StructuralComparisons.StructuralEqualityComparer.Equals()
-    ///     To compare two DieList&gt;T&lt; ELEMENY BY ELEMENT, use Linq's SequenceEqual()
+    ///     To compare two DieList&gt;T&lt; ELEMENT BY ELEMENT, use Linq's SequenceEqual()
     /// </remarks>
-    /// //todo stop inheriting from list and use composition instead
-    public class DieList<T> : List<T>, IDie<int> where T : IDie<int>, IParseable, new()
+    public class DieList<T> : List<T>, IDie<int> where T : IDie<int>
     {
         #region IDie<int>
 
@@ -52,74 +51,24 @@ namespace DiceLib
 
         #endregion
 
-        #region parse / ToString
-
         /// <summary>
         ///     Return a string that represents the current DieList&lt;T&gt;
         /// </summary>
         /// <returns>the canonical string representation of the DieList&lt;T&gt;</returns>
         public override string ToString()
         {
-            return String.Join(" ; ", this.Select(die => die.ToString()).ToArray());
+            return ToString(" ; ");
         }
 
         /// <summary>
-        ///     Parse a string representing a DieList&lt;T&gt;
+        ///     Return a string that represents the current DieList&lt;T&gt;
         /// </summary>
-        /// <param name="stringRepresentation">A string representation of the DieList&lt;T&gt;</param>
-        /// <returns>The parsed DieList&lt;T&gt;</returns>
-        /// <exception cref="ArgumentNullException">
-        ///     <paramref name="stringRepresentation" /> is null
-        /// </exception>
-        /// <exception cref="FormatException">
-        ///     <paramref name="stringRepresentation" /> is not a valid DieList&lt;T&gt; representation
-        /// </exception>
-        public static DieList<T> Parse(string stringRepresentation)
+        /// <returns>the canonical string representation of the DieList&lt;T&gt;</returns>
+        /// <param name="separator">The separator to display between each die</param>
+        public string ToString(string separator)
         {
-            DieList<T> result;
-            if (!TryParse(stringRepresentation, out result))
-            {
-                throw new FormatException();
-            }
-            return result;
+            return String.Join(separator, this.Select(die => die.ToString()).ToArray());
         }
-
-        /// <summary>
-        ///     Try to parse a string representing a DieList&lt;T&gt;
-        /// </summary>
-        /// <param name="stringRepresentation">A string representation of the DieList&lt;T&gt;</param>
-        /// <param name="result">The parsed DieList&lt;T&gt; on success, null on failure</param>
-        /// <returns>
-        ///     true if <paramref name="stringRepresentation" /> was a valid representation of a DieList&lt;T&gt;
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        ///     <paramref name="stringRepresentation" /> is null
-        /// </exception>
-        public static bool TryParse(string stringRepresentation, out DieList<T> result)
-        {
-            if (stringRepresentation == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            result = new DieList<T>();
-            string[] array = stringRepresentation.Split(";".ToCharArray());
-
-            foreach (string s in array)
-            {
-                var iDie = new T();
-                if (!iDie.TryFromString(s))
-                {
-                    result = null;
-                    return false;
-                }
-                result.Add(iDie);
-            }
-
-            return true;
-        }
-
-        #endregion
 
         #region equality implementation
 

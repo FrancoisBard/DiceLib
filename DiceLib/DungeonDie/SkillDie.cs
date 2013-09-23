@@ -3,7 +3,7 @@
     /// <summary>
     ///     A Dungeons &amp; Dragons 3 Skill d20, with Take10() and Take20() methods
     /// </summary>
-    public class SkillDie : Die
+    public class SkillDie : DungeonDie
     {
         /// <summary>
         ///     Instantiate a new skill die

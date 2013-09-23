@@ -50,7 +50,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DieListTests.cs" />
-    <Compile Include="DieTests.cs" />
+    <Compile Include="DungeonDieTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
