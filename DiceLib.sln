@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceLib", "DiceLib\DiceLib.csproj", "{AB0E27AC-FFE5-40EB-A9E1-9B904B4BC1A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceLibTests", "DiceLibTests\DiceLibTests.csproj", "{2386A57C-34AA-42FF-8893-078D69C42042}"

@@ -122,7 +122,7 @@ namespace DiceLib
         /// </summary>
         public int Max
         {
-            get { return Number*Faces; }
+            get { return Number * Faces; }
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace DiceLib
         /// </summary>
         public decimal Average
         {
-            get { return Number*(((decimal) (1 + Faces))/2); }
+            get { return Number * (((decimal)(1 + Faces)) / 2); }
         }
 
         #endregion
@@ -146,7 +146,7 @@ namespace DiceLib
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            var that = (Die) obj;
+            var that = (Die)obj;
             return Faces == that.Faces && Number == that.Number;
         }
 
@@ -178,13 +178,12 @@ namespace DiceLib
         ///     calculate a hash based on the values of Faces, Number and Modifier
         /// </summary>
         /// <returns>The hash code</returns>
-        /// //todo why 397 ?
         public override int GetHashCode()
         {
             unchecked
             {
                 int hashCode = Faces;
-                hashCode = (hashCode*397) ^ Number;
+                hashCode = (hashCode * 397) ^ Number; //todo why 397 ?
                 return hashCode;
             }
         }
