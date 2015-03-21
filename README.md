@@ -1,6 +1,8 @@
 DiceLib
 =======
 
+[![Build status](https://ci.appveyor.com/api/projects/status/0jodoy1emslt3tii/branch/master?svg=true)](https://ci.appveyor.com/project/FrancoisBard/dicelib/branch/master)
+
 A simple library for managing D&amp;D-like RPG dice system
 
 it's a small portable class compatible with :
